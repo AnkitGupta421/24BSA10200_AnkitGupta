@@ -1,0 +1,27 @@
+select sum(salary) from worker where department='HR';
+
+select sum(salary) from worker where department='HR';
+
+select department, sum(salary)from worker group by department having sum(salary)<=300000;
+
+SELECT department, AVG(salary) 
+FROM workers
+GROUP BY department
+ORDER BY AVG(salary)  ASC
+LIMIT 2;
+
+select first_name, salary
+from worker
+where department = 'Admin'
+order by salary desc
+limit 1 offset 1;
+
+select first_name, department, salary
+from worker w1
+where salary = (
+    select distinct salary
+    from worker w2
+    where w1.department = w2.department
+    order by salary desc
+    limit 1 offset 1
+);
