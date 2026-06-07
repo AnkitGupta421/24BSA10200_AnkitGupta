@@ -1,0 +1,374 @@
+db.sales.getIndexes()
+[ { v: 2, key: { _id: 1 }, name: '_id_' } ]
+
+db.sales.createIndex({item: 1})
+item_1
+
+db.sales.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { item: 1 }, name: 'item_1' }
+]
+
+
+db.users.insertMany([
+   { email:  "john@test.com", name: "john"},
+   { email:  "jane@test.com", name: "jane"},
+]);
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a241f067e0030e9374206db'),
+    '1': ObjectId('6a241f067e0030e9374206dc')
+  }
+}
+
+db.users.createIndex({email:1},{unique:true});
+email_1
+
+db.users.drop()
+true
+
+db.users.insertMany([
+   { email:  "john@test.com", name: "john"},
+   { email:  "john@test.com", name: "johny"},
+   { email:  "jane@test.com", name: "jane"},
+])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a241f6e7e0030e9374206de'),
+    '1': ObjectId('6a241f6e7e0030e9374206df'),
+    '2': ObjectId('6a241f6e7e0030e9374206e0')
+  }
+}
+
+db.users.deleteOne({name:'johny', email: 'john@test.com'});
+
+{
+  acknowledged: true,
+  deletedCount: 1
+}
+
+db.users.createIndex({email: 1},{unique:true})
+email_1
+
+db.collection.createIndex({field1: 1, field2: 1}, {unique: true});
+field1_1_field2_1
+
+db.locations.insertOne({
+	address: "Downtown San Jose, CA, USA",
+	lat: 37.335480,
+	long: -121.893028
+})
+
+{
+  acknowledged: true,
+  insertedId: ObjectId('6a2420087e0030e9374206e1')
+}
+
+db.locations.createIndex({
+	lat: 1,
+	long: 1
+},{ unique: true });
+
+lat_1_long_1
+
+db.locations.insertOne({
+	address: "Dev Bootcamp, San Jose, CA, USA",
+	lat: 37.335480,
+	long: -122.893028
+})
+
+{
+  acknowledged: true,
+  insertedId: ObjectId('6a24204c7e0030e9374206e2')
+}
+
+db.sales.createIndex({ title: 1, year: 1 })
+title_1_year_1
+
+db.sales.find({title: /Cappuccino/, price: 10}).explain('executionStats');
+{
+  explainVersion: '1',
+  queryPlanner: {
+    namespace: 'test.movies',
+    parsedQuery: {
+      '$and': [
+        {
+          price: {
+            '$eq': 10
+          }
+        },
+        {
+          title: BSONRegExp('Cappuccino', '')
+        }
+      ]
+    },
+    indexFilterSet: false,
+    optimizationTimeMillis: 0,
+    maxIndexedOrSolutionsReached: false,
+    maxIndexedAndSolutionsReached: false,
+    maxScansToExplodeReached: false,
+    prunedSimilarIndexes: false,
+    winningPlan: {
+      isCached: false,
+      stage: 'EOF',
+      type: 'nonExistentNamespace'
+    },
+    rejectedPlans: []
+  },
+  executionStats: {
+    executionSuccess: true,
+    nReturned: 0,
+    executionTimeMillis: 0,
+    totalKeysExamined: 0,
+    totalDocsExamined: 0,
+    executionStages: {
+      isCached: false,
+      stage: 'EOF',
+      nReturned: 0,
+      executionTimeMillisEstimate: 0,
+      works: 1,
+      advanced: 0,
+      needTime: 0,
+      needYield: 0,
+      saveState: 0,
+      restoreState: 0,
+      isEOF: 1,
+      type: 'nonExistentNamespace'
+    }
+  },
+  queryShapeHash: '3E8C3F2045769E473AB50BFB340DD967DAE353A72A7F1FACDE551921AAFB7FF5',
+  command: {
+    find: 'movies',
+    filter: {
+      title: BSONRegExp('Cappuccino', ''),
+      price: 10
+    },
+    '$db': 'test'
+  },
+  serverInfo: {
+    host: 'LAPTOP-P3K01FPO',
+    port: 27017,
+    version: '8.3.2',
+    gitVersion: '89f54eb32e217d2f7bfcad50e5919f3033bb9611'
+  },
+  serverParameters: {
+    internalQueryFacetBufferSizeBytes: 104857600,
+    internalDocumentSourceGroupMaxMemoryBytes: 104857600,
+    internalQueryMaxBlockingSortMemoryUsageBytes: 104857600,
+    internalDocumentSourceSetWindowFieldsMaxMemoryBytes: 104857600,
+    internalQueryFacetMaxOutputDocSizeBytes: 104857600,
+    internalLookupStageIntermediateDocumentMaxSizeBytes: 104857600,
+    internalQueryProhibitBlockingMergeOnMongoS: 0,
+    internalQueryMaxAddToSetBytes: 104857600,
+    internalQueryFrameworkControl: 'trySbeRestricted',
+    internalQueryPlannerIgnoreIndexWithCollationForRegex: 1
+  },
+  ok: 1
+}
+
+
+db.sales.find({title: /'Cappuccino/}).explain('executionStats');
+
+{
+  explainVersion: '1',
+  queryPlanner: {
+    namespace: 'test.movies',
+    parsedQuery: {
+      title: BSONRegExp('Cappuccino', '')
+    },
+    indexFilterSet: false,
+    optimizationTimeMillis: 0,
+    maxIndexedOrSolutionsReached: false,
+    maxIndexedAndSolutionsReached: false,
+    maxScansToExplodeReached: false,
+    prunedSimilarIndexes: false,
+    winningPlan: {
+      isCached: false,
+      stage: 'EOF',
+      type: 'nonExistentNamespace'
+    },
+    rejectedPlans: []
+  },
+  executionStats: {
+    executionSuccess: true,
+    nReturned: 0,
+    executionTimeMillis: 0,
+    totalKeysExamined: 0,
+    totalDocsExamined: 0,
+    executionStages: {
+      isCached: false,
+      stage: 'EOF',
+      nReturned: 0,
+      executionTimeMillisEstimate: 0,
+      works: 1,
+      advanced: 0,
+      needTime: 0,
+      needYield: 0,
+      saveState: 0,
+      restoreState: 0,
+      isEOF: 1,
+      type: 'nonExistentNamespace'
+    }
+  },
+  queryShapeHash: '2AE89547B001DB254C56B8DCFC464D304BD33715605C3CA1D8306DFB78A943BC',
+  command: {
+    find: 'movies',
+    filter: {
+      title: BSONRegExp('Cappuccino', '')
+    },
+    '$db': 'test'
+  },
+  serverInfo: {
+    host: 'LAPTOP-P3K01FPO',
+    port: 27017,
+    version: '8.3.2',
+    gitVersion: '89f54eb32e217d2f7bfcad50e5919f3033bb9611'
+  },
+  serverParameters: {
+    internalQueryFacetBufferSizeBytes: 104857600,
+    internalDocumentSourceGroupMaxMemoryBytes: 104857600,
+    internalQueryMaxBlockingSortMemoryUsageBytes: 104857600,
+    internalDocumentSourceSetWindowFieldsMaxMemoryBytes: 104857600,
+    internalQueryFacetMaxOutputDocSizeBytes: 104857600,
+    internalLookupStageIntermediateDocumentMaxSizeBytes: 104857600,
+    internalQueryProhibitBlockingMergeOnMongoS: 0,
+    internalQueryMaxAddToSetBytes: 104857600,
+    internalQueryFrameworkControl: 'trySbeRestricted',
+    internalQueryPlannerIgnoreIndexWithCollationForRegex: 1
+  },
+  ok: 1
+}
+
+db.sales.find({price: 10}).explain('executionStats');
+
+{
+  explainVersion: '1',
+  queryPlanner: {
+    namespace: 'test.movies',
+    parsedQuery: {
+      price: {
+        '$eq': 10
+      }
+    },
+    indexFilterSet: false,
+    optimizationTimeMillis: 0,
+    maxIndexedOrSolutionsReached: false,
+    maxIndexedAndSolutionsReached: false,
+    maxScansToExplodeReached: false,
+    prunedSimilarIndexes: false,
+    winningPlan: {
+      isCached: false,
+      stage: 'EOF',
+      type: 'nonExistentNamespace'
+    },
+    rejectedPlans: []
+  },
+  executionStats: {
+    executionSuccess: true,
+    nReturned: 0,
+    executionTimeMillis: 0,
+    totalKeysExamined: 0,
+    totalDocsExamined: 0,
+    executionStages: {
+      isCached: false,
+      stage: 'EOF',
+      nReturned: 0,
+      executionTimeMillisEstimate: 0,
+      works: 1,
+      advanced: 0,
+      needTime: 0,
+      needYield: 0,
+      saveState: 0,
+      restoreState: 0,
+      isEOF: 1,
+      type: 'nonExistentNamespace'
+    }
+  },
+  queryShapeHash: '75876BAFBEB623CB8538ABB80C750757BA21E4D83391E168C5830689FD0F5D5D',
+  command: {
+    find: 'movies',
+    filter: {
+      price: 10
+    },
+    '$db': 'test'
+  },
+  serverInfo: {
+    host: 'LAPTOP-P3K01FPO',
+    port: 27017,
+    version: '8.3.2',
+    gitVersion: '89f54eb32e217d2f7bfcad50e5919f3033bb9611'
+  },
+  serverParameters: {
+    internalQueryFacetBufferSizeBytes: 104857600,
+    internalDocumentSourceGroupMaxMemoryBytes: 104857600,
+    internalQueryMaxBlockingSortMemoryUsageBytes: 104857600,
+    internalDocumentSourceSetWindowFieldsMaxMemoryBytes: 104857600,
+    internalQueryFacetMaxOutputDocSizeBytes: 104857600,
+    internalLookupStageIntermediateDocumentMaxSizeBytes: 104857600,
+    internalQueryProhibitBlockingMergeOnMongoS: 0,
+    internalQueryMaxAddToSetBytes: 104857600,
+    internalQueryFrameworkControl: 'trySbeRestricted',
+    internalQueryPlannerIgnoreIndexWithCollationForRegex: 1
+  },
+  ok: 1
+}
+
+db.sales.createIndex({price: 10})
+price_10
+
+b.sales.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { item: 1 }, name: 'item_1' },
+  { v: 2, key: { title: 1, year: 1 }, name: 'title_1_year_1' },
+  { v: 2, key: { price: 10 }, name: 'price_10' }
+]
+
+db.sales.dropIndex('item_1')
+{ nIndexesWas: 4, ok: 1 }
+
+
+db.sales.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { title: 1, year: 1 }, name: 'title_1_year_1' },
+  { v: 2, key: { price: 10 }, name: 'price_10' }
+]
+
+db.sales.createIndex({runtime: -1})
+runtime_-1
+
+db.sales.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { title: 1, year: 1 }, name: 'title_1_year_1' },
+  { v: 2, key: { price: 10 }, name: 'price_10' },
+  { v: 2, key: { runtime: -1 }, name: 'runtime_-1' }
+]
+
+db.sales.dropIndex({runtime: -1});
+{ nIndexesWas: 4, ok: 1 }
+
+db.sales.createIndex({price: 10})
+price_10
+
+db.sales.createIndex({runtime: 1})
+runtime_1
+
+db.sales.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { title: 1, year: 1 }, name: 'title_1_year_1' },
+  { v: 2, key: { price: 10 }, name: 'price_10' }
+]
+
+db.sales.dropIndexes()
+{
+  nIndexesWas: 3,
+  msg: 'non-_id indexes dropped for collection',
+  ok: 1
+}
+
