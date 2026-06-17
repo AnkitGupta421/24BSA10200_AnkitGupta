@@ -1,0 +1,99 @@
+                                                              TEST
+Name – Ankit Gupta              
+Reg No. – 24BSA10200
+
+1.
+db.employees.insertOne({
+    empId: 106,
+    name: "Ankit",
+    age: 24,
+    department: "IT",
+    salary: 60000,
+    city: "Darbhanga",
+    experience: 2,
+    skills: ["Java","MongoDB"],
+    active: true
+});
+
+2.
+db.employees.insertMany([
+{
+    empId: 107,
+    name: "Riya",
+    age: 27,
+    department: "HR",
+    salary: 58000,
+    city: "Pune",
+    experience: 4,
+    skills: ["Recruitment"],
+    active: true
+},
+{
+    empId: 108,
+    name: "Vikram",
+    age: 31,
+    department: "IT",
+    salary: 72000,
+    city: "Hyderabad",
+    experience: 6,
+    skills: ["Python","AWS"],
+    active: true
+}
+]);
+
+3.
+db.employees.findOne({
+    department: "IT"
+});
+
+4.
+db.employees.find();
+
+
+
+
+5.
+db.employees.find(
+    {},
+    {
+        _id: 0,
+        name: 1,
+        salary: 1
+    }
+);
+
+6.
+db.employees.find({
+    salary: 50000
+});
+
+7.
+db.employees.find({
+    salary: { $lt: 60000 }
+});
+
+8.
+db.employees.find({
+    salary: { $gte: 60000 }
+});
+
+9.
+db.employees.find({
+    age: { $ne: 30 }
+});
+
+10.
+db.employees.find({
+    city: { $in: ["Chennai", "Mumbai"] }
+});
+
+11.
+db.employees.find({
+    city: { $ne: "Chennai" }
+});
+
+12.
+db.employees.find({
+    department: "IT",
+    salary: { $gt: 50000 }
+});
