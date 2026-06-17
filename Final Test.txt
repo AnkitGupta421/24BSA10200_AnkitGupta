@@ -97,3 +97,72 @@ db.employees.find({
     department: "IT",
     salary: { $gt: 50000 }
 });
+
+13.
+db.employees.find({
+    city: { $in: ["Chennai", "Bangalore"] }
+});
+
+14.
+db.employees.find({
+    salary: { $not: { $gt: 60000 } }
+});
+
+15.
+db.employees.find({
+    department: { $nin: ["IT", "HR"] }
+});
+
+16.
+db.employees.find({
+    experience: { $exists: true }
+});
+
+17.
+db.employees.find({
+    salary: { $type: "int" }
+});
+
+18.
+db.employees.find({
+    skills: "MongoDB"
+});
+
+19.
+db.employees.find({
+    skills: { $all: ["MongoDB", "AWS"] }
+});
+
+20.
+db.employees.find({
+    skills: { $size: 3 }
+});
+
+21.
+db.employees.find({
+    skills: {
+        $elemMatch: { $eq: "Java" }
+    }
+});
+
+22.
+db.employees.find().sort({
+    salary: -1
+});
+23.
+db.employees.find()
+.sort({ salary: -1 })
+.limit(3);
+
+24.
+db.employees.updateOne(
+    { empId: 101 },
+    { $inc: { salary: 5000 } }
+);
+
+25.
+db.employees.updateMany(
+    { department: "IT" },
+    { $mul: { salary: 1.10 } }
+);
+
