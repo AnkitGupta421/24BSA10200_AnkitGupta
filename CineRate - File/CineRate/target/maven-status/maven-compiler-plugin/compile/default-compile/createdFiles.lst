@@ -1,0 +1,9 @@
+com\example\CineRate\model\Review.class
+com\example\CineRate\CineRateApplication.class
+com\example\CineRate\service\ReviewService.class
+com\example\CineRate\repository\MovieRepository.class
+com\example\CineRate\controller\MovieController.class
+com\example\CineRate\controller\ReviewController.class
+com\example\CineRate\repository\ReviewRepository.class
+com\example\CineRate\model\Director.class
+com\example\CineRate\model\Movie.class
